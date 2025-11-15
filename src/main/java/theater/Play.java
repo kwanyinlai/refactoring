@@ -1,7 +1,7 @@
 package theater;
 
-/** Represents a play in the theatre
- *
+/**
+ * Represents a play in the theatre.
  */
 public class Play {
 

@@ -23,7 +23,8 @@ public class StatementPrinter {
      */
     public String statement() {
 
-        final StringBuilder result = new StringBuilder("Statement for " + getInvoice().getCustomer() + System.lineSeparator());
+        final StringBuilder result = new StringBuilder("Statement for " + getInvoice().getCustomer()
+                + System.lineSeparator());
         for (Performance p : getInvoice().getPerformances()) {
             // print line for this order
             result.append(String.format("  %s: %s (%s seats)%n", getPlay(p).getName(), usd(getAmount(p)),
