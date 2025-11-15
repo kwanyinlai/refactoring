@@ -8,12 +8,12 @@ import java.util.Map;
  * This class generates a statement for a given invoice of performances.
  */
 public class StatementPrinter {
-    public Invoice invoice;
-    public Map<String, Play> plays;
+    private Invoice invoice;
+    private Map<String, Play> plays;
 
     public StatementPrinter(Invoice invoice, Map<String, Play> plays) {
-        this.invoice = invoice;
-        this.plays = plays;
+        this.setInvoice(invoice);
+        this.setPlays(plays);
     }
 
     /**
@@ -23,8 +23,8 @@ public class StatementPrinter {
      */
     public String statement() {
 
-        StringBuilder result = new StringBuilder("Statement for " + invoice.getCustomer() + System.lineSeparator());
-        for (Performance p : invoice.getPerformances()) {
+        final StringBuilder result = new StringBuilder("Statement for " + getInvoice().getCustomer() + System.lineSeparator());
+        for (Performance p : getInvoice().getPerformances()) {
             // print line for this order
             result.append(String.format("  %s: %s (%s seats)%n", getPlay(p).getName(), usd(getAmount(p)),
                     p.getAudience()));
@@ -36,7 +36,7 @@ public class StatementPrinter {
 
     private int getTotalAmount() {
         int totalAmount = 0;
-        for (Performance p : invoice.getPerformances()) {
+        for (Performance p : getInvoice().getPerformances()) {
             totalAmount += getAmount(p);
 
         }
@@ -45,7 +45,7 @@ public class StatementPrinter {
 
     private int getTotalVolumeCredits() {
         int volumeCredits = 0;
-        for (Performance p : invoice.getPerformances()) {
+        for (Performance p : getInvoice().getPerformances()) {
             // add volume credits
             volumeCredits += getVolumeCredits(p);
         }
@@ -67,7 +67,7 @@ public class StatementPrinter {
     }
 
     private Play getPlay(Performance performance) {
-        return plays.get(performance.getPlayID());
+        return getPlays().get(performance.getPlayID());
     }
 
     private int getAmount(Performance performance) {
@@ -94,5 +94,21 @@ public class StatementPrinter {
                 throw new RuntimeException(String.format("unknown type: %s", play.getType()));
         }
         return result;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public Map<String, Play> getPlays() {
+        return plays;
+    }
+
+    public void setPlays(Map<String, Play> plays) {
+        this.plays = plays;
     }
 }
